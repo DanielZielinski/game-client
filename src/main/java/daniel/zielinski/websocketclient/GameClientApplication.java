@@ -3,8 +3,9 @@ package daniel.zielinski.websocketclient;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import daniel.zielinski.websocketclient.config.WebSocketClientSessionManager;
-import daniel.zielinski.websocketclient.game.GameEntityFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import daniel.zielinski.websocketclient.game.config.GameEntityFactory;
+import daniel.zielinski.websocketclient.shared.model.output.WebSocketOutputCommandLogin;
 import javafx.scene.control.Button;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -27,17 +28,20 @@ public class GameClientApplication extends GameApplication {
     @Autowired
     GameEntityFactory gameEntityFactory;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setWidth(200);
-        settings.setHeight(150);
+        settings.setWidth(500);
+        settings.setHeight(500);
         settings.setTitle("Game App");
 
         springContext = new SpringApplicationBuilder(WebsocketClientApplication.class)
                         .web(WebApplicationType.NONE)
                         .run();
-        springContext
-                .getAutowireCapableBeanFactory()
+
+        springContext.getAutowireCapableBeanFactory()
                 .autowireBeanProperties(this, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
     }
 
@@ -45,9 +49,13 @@ public class GameClientApplication extends GameApplication {
     protected void initGame() {
         getGameWorld().addEntityFactory(gameEntityFactory);
         Button button = new Button();
+        button.setDefaultButton(true);
+        button.setText("Login");
         button.setOnAction(actionEvent -> {
             try {
-                webSocketClientSessionManager.getSession().sendMessage(new TextMessage("login"));
+                WebSocketOutputCommandLogin webSocketOutputCommandLogin = new WebSocketOutputCommandLogin();
+                String jsonMessage = objectMapper.writeValueAsString(webSocketOutputCommandLogin);
+                webSocketClientSessionManager.getSession().sendMessage(new TextMessage(jsonMessage));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

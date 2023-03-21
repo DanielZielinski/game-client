@@ -1,10 +1,9 @@
-package daniel.zielinski.websocketclient.game;
+package daniel.zielinski.websocketclient.game.config;
 
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
-import daniel.zielinski.websocketclient.game.EntityType;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

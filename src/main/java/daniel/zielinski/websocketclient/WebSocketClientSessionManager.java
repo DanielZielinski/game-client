@@ -1,4 +1,4 @@
-package daniel.zielinski.websocketclient.config;
+package daniel.zielinski.websocketclient;
 
 import lombok.Getter;
 import lombok.Setter;
