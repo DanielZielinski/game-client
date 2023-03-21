@@ -5,8 +5,10 @@ import com.almasb.fxgl.entity.Entity;
 import daniel.zielinski.websocketclient.game.config.GameEntityFactory;
 import daniel.zielinski.websocketclient.websocket.WebsocketMessageSender;
 import daniel.zielinski.websocketclient.websocket.model.output.*;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -68,11 +70,11 @@ public class GameConfig {
     public void game() {
         getGameWorld().addEntityFactory(gameEntityFactory);
 
-        Button button = loginFormConfig.initLoginButton();
+        Node loginForm = loginFormConfig.initLoginForm();
 
         FXGL.entityBuilder()
                 .at(50, 50)
-                .view(button)
+                .view(loginForm)
                 .buildAndAttach();
     }
 
