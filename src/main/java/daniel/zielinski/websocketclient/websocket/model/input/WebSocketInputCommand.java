@@ -1,4 +1,4 @@
-package daniel.zielinski.websocketclient.shared.model.input;
+package daniel.zielinski.websocketclient.websocket.model.input;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -8,7 +8,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "actionName",
         visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = WebSocketInputCommandSpawnPlayer.class, name = "SPAWN_PLAYER")
+        @JsonSubTypes.Type(value = WebSocketInputCommandPlayerSpawn.class, name = "PLAYER_SPAWN"),
+        @JsonSubTypes.Type(value = WebSocketInputCommandPlayerMove.class, name = "PLAYER_MOVE")
 })
 public interface WebSocketInputCommand<T> {
     String getActionName();

@@ -1,8 +1,7 @@
-package daniel.zielinski.websocketclient;
+package daniel.zielinski.websocketclient.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import daniel.zielinski.websocketclient.command_router.domain.WebSocketInputCommandRouter;
-import daniel.zielinski.websocketclient.shared.model.input.WebSocketInputCommand;
+import daniel.zielinski.websocketclient.websocket.model.input.WebSocketInputCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
@@ -28,7 +27,7 @@ public class WebSocketMessageHandler implements WebSocketHandler {
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        log.info(message.getPayload().toString());
+        log.info("Received message {}", message.getPayload());
         WebSocketInputCommand webSocketInputCommand = objectMapper.readValue(message.getPayload().toString(), WebSocketInputCommand.class);
         webSocketInputCommandRouter.execute(webSocketInputCommand, session);
 

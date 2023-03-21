@@ -1,12 +1,11 @@
-package daniel.zielinski.websocketclient.command_router.infrastructure.service;
+package daniel.zielinski.websocketclient.websocket.command_executor;
 
 
-import daniel.zielinski.websocketclient.command_router.domain.WebSocketInputCommandExecutor;
 import daniel.zielinski.websocketclient.game.model.Player;
 import daniel.zielinski.websocketclient.game.player.PlayerCache;
 import daniel.zielinski.websocketclient.game.spawn.domain.SpawnFacade;
-import daniel.zielinski.websocketclient.shared.model.input.WebSocketInputCommandSpawnPlayer;
-import daniel.zielinski.websocketclient.shared.model.input.WebSocketInputCommandType;
+import daniel.zielinski.websocketclient.websocket.model.input.WebSocketInputCommandPlayerSpawn;
+import daniel.zielinski.websocketclient.websocket.model.input.WebSocketInputCommandType;
 import javafx.application.Platform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +15,14 @@ import org.springframework.web.socket.WebSocketSession;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class WebSocketInputCommandExecutorSpawnPlayer implements WebSocketInputCommandExecutor<WebSocketInputCommandSpawnPlayer> {
+public class WebSocketInputCommandExecutorPlayerSpawn implements WebSocketInputCommandExecutor<WebSocketInputCommandPlayerSpawn> {
 
     private final PlayerCache playerCache;
 
     private final SpawnFacade spawnFacade;
 
     @Override
-    public void execute(WebSocketInputCommandSpawnPlayer command, WebSocketSession session) {
+    public void execute(WebSocketInputCommandPlayerSpawn command, WebSocketSession session) {
 
 
         Platform.runLater(() -> {
@@ -40,6 +39,6 @@ public class WebSocketInputCommandExecutorSpawnPlayer implements WebSocketInputC
 
     @Override
     public boolean find(String webSocketInputCommandType) {
-        return webSocketInputCommandType.equals(WebSocketInputCommandType.SPAWN_PLAYER.name());
+        return webSocketInputCommandType.equals(WebSocketInputCommandType.PLAYER_SPAWN.name());
     }
 }

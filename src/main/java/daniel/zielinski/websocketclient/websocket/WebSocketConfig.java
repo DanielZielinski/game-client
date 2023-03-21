@@ -1,8 +1,7 @@
-package daniel.zielinski.websocketclient;
+package daniel.zielinski.websocketclient.websocket;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import daniel.zielinski.websocketclient.command_router.domain.WebSocketInputCommandRouter;
 import daniel.zielinski.websocketclient.game.config.GameEntityFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

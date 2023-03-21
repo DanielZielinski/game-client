@@ -1,6 +1,7 @@
-package daniel.zielinski.websocketclient.command_router.domain;
+package daniel.zielinski.websocketclient.websocket;
 
-import daniel.zielinski.websocketclient.shared.model.input.WebSocketInputCommand;
+import daniel.zielinski.websocketclient.websocket.model.input.WebSocketInputCommand;
+import daniel.zielinski.websocketclient.websocket.command_executor.WebSocketInputCommandExecutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;

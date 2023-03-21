@@ -18,4 +18,10 @@ public class PlayerCache {
     public void removePlayer(Player player) {
         this.players.remove(player);
     }
+
+    public Player getPlayer(String sessionId) {
+        return players.stream()
+                .filter(player -> player.getSessionId().equals(sessionId))
+                .findFirst().orElseThrow();
+    }
 }

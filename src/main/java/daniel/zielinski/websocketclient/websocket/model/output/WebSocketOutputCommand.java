@@ -1,10 +1,12 @@
-package daniel.zielinski.websocketclient.shared.model.output;
+package daniel.zielinski.websocketclient.websocket.model.output;
 
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-public interface WebSocketOutputCommand {
+public interface WebSocketOutputCommand<T>{
     String getActionName();
+
+    void setData(T data);
 }
 

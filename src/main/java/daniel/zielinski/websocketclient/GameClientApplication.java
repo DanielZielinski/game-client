@@ -3,33 +3,28 @@ package daniel.zielinski.websocketclient;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import daniel.zielinski.websocketclient.game.config.GameEntityFactory;
-import daniel.zielinski.websocketclient.shared.model.output.WebSocketOutputCommandLogin;
+import daniel.zielinski.websocketclient.websocket.WebsocketMessageSender;
+import daniel.zielinski.websocketclient.websocket.model.output.*;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.socket.TextMessage;
-
-import java.io.IOException;
 
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
+import static daniel.zielinski.websocketclient.websocket.model.output.WebSocketOutputCommandType.PLAYER_MOVE;
 
 public class GameClientApplication extends GameApplication {
 
     private ConfigurableApplicationContext springContext;
-
-    @Autowired
-    WebSocketClientSessionManager webSocketClientSessionManager;
-
     @Autowired
     GameEntityFactory gameEntityFactory;
 
     @Autowired
-    ObjectMapper objectMapper;
+    WebsocketMessageSender websocketMessageSender;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -38,8 +33,8 @@ public class GameClientApplication extends GameApplication {
         settings.setTitle("Game App");
 
         springContext = new SpringApplicationBuilder(WebsocketClientApplication.class)
-                        .web(WebApplicationType.NONE)
-                        .run();
+                .web(WebApplicationType.NONE)
+                .run();
 
         springContext.getAutowireCapableBeanFactory()
                 .autowireBeanProperties(this, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
@@ -51,19 +46,48 @@ public class GameClientApplication extends GameApplication {
         Button button = new Button();
         button.setDefaultButton(true);
         button.setText("Login");
-        button.setOnAction(actionEvent -> {
-            try {
-                WebSocketOutputCommandLogin webSocketOutputCommandLogin = new WebSocketOutputCommandLogin();
-                String jsonMessage = objectMapper.writeValueAsString(webSocketOutputCommandLogin);
-                webSocketClientSessionManager.getSession().sendMessage(new TextMessage(jsonMessage));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+
+        WebSocketOutputCommandPlayerLogin webSocketOutputCommandPlayerLogin = WebSocketOutputCommandPlayerLogin.builder()
+                .actionName(WebSocketOutputCommandType.PLAYER_LOGIN.name())
+                .data(OutputCommandPlayerLogin.builder().username("test").password("test").build())
+                .build();
+
+        button.setOnAction(actionEvent -> websocketMessageSender.send(webSocketOutputCommandPlayerLogin));
         FXGL.entityBuilder()
                 .at(50, 50)
                 .view(button)
                 .buildAndAttach();
+    }
+
+    @Override
+    protected void initInput() {
+        FXGL.onKey(KeyCode.W, () -> {
+            WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("up").build())
+                    .build();
+            websocketMessageSender.send(playerMove);
+        });
+
+        FXGL.onKey(KeyCode.S, () -> {
+            WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("down").build())
+                    .build();
+            websocketMessageSender.send(playerMove);
+        });
+
+        FXGL.onKey(KeyCode.A, () -> {
+            WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("left").build())
+                    .build();
+            websocketMessageSender.send(playerMove);
+        });
+
+        FXGL.onKey(KeyCode.D, () -> {
+            WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("right").build())
+                    .build();
+            websocketMessageSender.send(playerMove);
+        });
     }
 
     public static void main(String[] args) {

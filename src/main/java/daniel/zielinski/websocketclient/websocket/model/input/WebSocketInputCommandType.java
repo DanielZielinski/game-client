@@ -1,4 +1,4 @@
-package daniel.zielinski.websocketclient.shared.model.input;
+package daniel.zielinski.websocketclient.websocket.model.input;
 
 
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WebSocketInputCommandType {
 
-    SPAWN_PLAYER("spawn_player");
+    PLAYER_SPAWN("player_spawn"),
+    PLAYER_MOVE("player_move");
     private final String type;
 
     public static WebSocketInputCommandType fromType(String type) {
