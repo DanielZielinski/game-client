@@ -18,17 +18,12 @@ public class PlayerMoveImpl implements PlayerMove {
         Player player = playerCache.getPlayer(inputCommandPlayerMove.getSessionId());
         Entity playerEntity = player.getPlayerEntity();
 
-        if(inputCommandPlayerMove.getDirection().equals("up")){
-            playerEntity.translateY(-5);
+        if(inputCommandPlayerMove.getDirection().equals("Y")){
+            playerEntity.translateY(inputCommandPlayerMove.getDistance());
         }
-        if(inputCommandPlayerMove.getDirection().equals("down")){
-            playerEntity.translateY(5);
+        if(inputCommandPlayerMove.getDirection().equals("X")){
+            playerEntity.translateX(inputCommandPlayerMove.getDistance());
         }
-        if(inputCommandPlayerMove.getDirection().equals("left")){
-            playerEntity.translateX(-5);
-        }
-        if(inputCommandPlayerMove.getDirection().equals("right")){
-            playerEntity.translateX(5);
-        }
+
     }
 }

@@ -3,7 +3,7 @@ package daniel.zielinski.websocketclient.websocket.command_executor;
 
 import daniel.zielinski.websocketclient.game.model.Player;
 import daniel.zielinski.websocketclient.game.player.PlayerCache;
-import daniel.zielinski.websocketclient.game.spawn.domain.SpawnFacade;
+import daniel.zielinski.websocketclient.game.player.PlayerFacade;
 import daniel.zielinski.websocketclient.websocket.model.input.WebSocketInputCommandPlayerSpawn;
 import daniel.zielinski.websocketclient.websocket.model.input.WebSocketInputCommandType;
 import javafx.application.Platform;
@@ -19,7 +19,7 @@ public class WebSocketInputCommandExecutorPlayerSpawn implements WebSocketInputC
 
     private final PlayerCache playerCache;
 
-    private final SpawnFacade spawnFacade;
+    private final PlayerFacade playerFacade;
 
     @Override
     public void execute(WebSocketInputCommandPlayerSpawn command, WebSocketSession session) {
@@ -28,7 +28,7 @@ public class WebSocketInputCommandExecutorPlayerSpawn implements WebSocketInputC
         Platform.runLater(() -> {
 
             Player player = Player.builder()
-                    .playerEntity(spawnFacade.spawnPlayer())
+                    .playerEntity(playerFacade.playerSpawn(command))
                     .sessionId(command.getData().getSessionId())
                     .build();
 

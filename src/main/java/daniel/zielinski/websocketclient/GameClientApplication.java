@@ -63,28 +63,40 @@ public class GameClientApplication extends GameApplication {
     protected void initInput() {
         FXGL.onKey(KeyCode.W, () -> {
             WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
-                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("up").build())
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder()
+                            .direction("Y")
+                            .distance(-5)
+                            .build())
                     .build();
             websocketMessageSender.send(playerMove);
         });
 
         FXGL.onKey(KeyCode.S, () -> {
             WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
-                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("down").build())
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder()
+                            .direction("Y")
+                            .distance(5)
+                            .build())
                     .build();
             websocketMessageSender.send(playerMove);
         });
 
         FXGL.onKey(KeyCode.A, () -> {
             WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
-                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("left").build())
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder()
+                            .direction("X")
+                            .distance(-5)
+                            .build())
                     .build();
             websocketMessageSender.send(playerMove);
         });
 
         FXGL.onKey(KeyCode.D, () -> {
             WebSocketOutputCommandPlayerMove playerMove = WebSocketOutputCommandPlayerMove.builder()
-                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder().direction("right").build())
+                    .actionName(PLAYER_MOVE.name()).data(OutputCommandPlayerMove.builder()
+                            .direction("X")
+                            .distance(5)
+                            .build())
                     .build();
             websocketMessageSender.send(playerMove);
         });

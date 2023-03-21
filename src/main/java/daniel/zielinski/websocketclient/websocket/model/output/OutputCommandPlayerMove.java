@@ -7,4 +7,5 @@ import lombok.Data;
 @Builder
 public class OutputCommandPlayerMove {
     private String direction;
+    private double distance;
 }

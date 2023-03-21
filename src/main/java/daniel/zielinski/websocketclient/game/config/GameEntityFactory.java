@@ -21,14 +21,4 @@ public class GameEntityFactory implements EntityFactory {
                 .collidable()
                 .build();
     }
-
-    @Spawns("enemy")
-    public Entity newEnemy(SpawnData data) {
-        return entityBuilder()
-                .from(data)
-                .type(EntityType.ENEMY)
-                .viewWithBBox(new Rectangle(30, 30, Color.RED))
-                .collidable()
-                .build();
-    }
 }
