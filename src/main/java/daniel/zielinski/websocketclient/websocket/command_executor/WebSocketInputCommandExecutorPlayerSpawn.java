@@ -1,6 +1,7 @@
 package daniel.zielinski.websocketclient.websocket.command_executor;
 
 
+import daniel.zielinski.websocketclient.game.control.LoginFormConfig;
 import daniel.zielinski.websocketclient.game.model.Player;
 import daniel.zielinski.websocketclient.game.player.PlayerCache;
 import daniel.zielinski.websocketclient.game.player.PlayerFacade;
@@ -21,6 +22,8 @@ public class WebSocketInputCommandExecutorPlayerSpawn implements WebSocketInputC
 
     private final PlayerFacade playerFacade;
 
+    private final LoginFormConfig loginFormConfig;
+
     @Override
     public void execute(WebSocketInputCommandPlayerSpawn command, WebSocketSession session) {
 
@@ -33,6 +36,8 @@ public class WebSocketInputCommandExecutorPlayerSpawn implements WebSocketInputC
                     .build();
 
             playerCache.addPlayer(player);
+
+            loginFormConfig.hideLoginButton();
 
         });
     }

@@ -1,6 +1,7 @@
 package daniel.zielinski.websocketclient.game.control;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import daniel.zielinski.websocketclient.game.config.GameEntityFactory;
 import daniel.zielinski.websocketclient.websocket.WebsocketMessageSender;
 import daniel.zielinski.websocketclient.websocket.model.output.*;
@@ -19,6 +20,8 @@ public class GameConfig {
     private final WebsocketMessageSender websocketMessageSender;
 
     private final GameEntityFactory gameEntityFactory;
+
+    private final LoginFormConfig loginFormConfig;
 
     public void initControllerSettings() {
         FXGL.onKey(KeyCode.W, () -> {
@@ -64,16 +67,9 @@ public class GameConfig {
 
     public void game() {
         getGameWorld().addEntityFactory(gameEntityFactory);
-        Button button = new Button();
-        button.setDefaultButton(true);
-        button.setText("Login");
 
-        WebSocketOutputCommandPlayerLogin webSocketOutputCommandPlayerLogin = WebSocketOutputCommandPlayerLogin.builder()
-                .actionName(WebSocketOutputCommandType.PLAYER_LOGIN.name())
-                .data(OutputCommandPlayerLogin.builder().username("test").password("test").build())
-                .build();
+        Button button = loginFormConfig.initLoginButton();
 
-        button.setOnAction(actionEvent -> websocketMessageSender.send(webSocketOutputCommandPlayerLogin));
         FXGL.entityBuilder()
                 .at(50, 50)
                 .view(button)
